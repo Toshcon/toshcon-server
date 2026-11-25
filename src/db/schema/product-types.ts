@@ -4,6 +4,7 @@ import {
   integer,
   pgTable,
   text,
+  unique,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
@@ -30,8 +31,8 @@ export const productTypes = pgTable(
       table.productCategoryId,
       table.slug,
     ),
-    // Referenced by the product's composite foreign key to enforce its category.
-    uniqueIndex("product_types_id_category_idx").on(
+    // A table constraint exists before Drizzle adds foreign keys in migrations.
+    unique("product_types_id_category_unique").on(
       table.id,
       table.productCategoryId,
     ),

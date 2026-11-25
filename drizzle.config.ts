@@ -1,8 +1,9 @@
 import { defineConfig } from "drizzle-kit";
-import { env } from "./src/env.js";
+import { databaseConnectionUrl } from "./src/db/connection.js";
+
 export default defineConfig({
   dialect: "postgresql",
   schema: "./src/db/schema/index.ts",
   out: "./src/db/migrations",
-  dbCredentials: { url: env.DATABASE_URL, ssl: true },
+  dbCredentials: { url: databaseConnectionUrl },
 });

@@ -40,7 +40,8 @@ CREATE TABLE "product_types" (
 	"sort_order" integer DEFAULT 0 NOT NULL,
 	"is_active" boolean DEFAULT true NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "product_types_id_category_unique" UNIQUE("id","product_category_id")
 );
 --> statement-breakpoint
 CREATE TABLE "products" (
@@ -205,7 +206,6 @@ CREATE UNIQUE INDEX "product_categories_slug_idx" ON "product_categories" USING 
 CREATE INDEX "product_categories_name_idx" ON "product_categories" USING btree ("name");--> statement-breakpoint
 CREATE INDEX "product_categories_active_order_idx" ON "product_categories" USING btree ("is_active","sort_order");--> statement-breakpoint
 CREATE UNIQUE INDEX "product_types_category_slug_idx" ON "product_types" USING btree ("product_category_id","slug");--> statement-breakpoint
-CREATE UNIQUE INDEX "product_types_id_category_idx" ON "product_types" USING btree ("id","product_category_id");--> statement-breakpoint
 CREATE INDEX "product_types_name_idx" ON "product_types" USING btree ("name");--> statement-breakpoint
 CREATE INDEX "product_types_category_active_order_idx" ON "product_types" USING btree ("product_category_id","is_active","sort_order");--> statement-breakpoint
 CREATE UNIQUE INDEX "products_slug_idx" ON "products" USING btree ("slug");--> statement-breakpoint

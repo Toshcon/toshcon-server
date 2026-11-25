@@ -1,13 +1,12 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { env } from "../env.js";
+import { databaseConnectionUrl } from "./connection.js";
 import * as schema from "./schema/index.js";
 
 // node-postgres uses unnamed queries by default, which work with
 // Supabase's transaction pooler. Avoid named .prepare() queries here.
 export const pool = new Pool({
-  connectionString: env.DATABASE_URL,
-  ssl: true,
+  connectionString: databaseConnectionUrl,
   max: 5,
   idleTimeoutMillis: 30_000,
   connectionTimeoutMillis: 10_000,

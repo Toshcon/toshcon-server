@@ -27,6 +27,9 @@ No tests have been added yet.
   and exported through `index.ts`.
 - `src/env.ts`: loads `.env`, validates variables with Zod, and exports typed `env`.
 - `src/db/index.ts`: shared database connection and `closeDb()` for shutdown.
+- `src/db/connection.ts`: shared connection URL and verified TLS options for
+  the runtime and Drizzle Kit.
+- `certs/`: public Supabase root CA certificate; include it in deployments.
 - `src/db/schema/`: table definitions and inferred TypeScript types.
 - `src/db/migrations/`: generated SQL migrations and Drizzle metadata.
 - `src/db/seed/`: reserved for seed scripts.
@@ -44,7 +47,10 @@ Run commands from `server/`:
    the SQL, then apply them with `npm run migrate`.
 
 The runtime uses a shared `pg.Pool` with TLS and at most five connections per
-process. Queries are unnamed by default for transaction pooling compatibility;
+process. The runtime and Drizzle Kit use `sslmode=verify-full` by default and
+trust the bundled Supabase CA for Supabase connections. Keep `certs/` alongside
+`package.json` in deployments and run commands from the server root. Queries
+are unnamed by default for transaction pooling compatibility;
 avoid named prepared queries and session-dependent state such as session-level
 `SET` or temporary tables across transactions.
 
@@ -160,8 +166,9 @@ Primary keys, foreign keys, uniqueness, required columns, and enums remain.
 `updatedAt` is refreshed by Drizzle updates; direct SQL updates must set it
 explicitly. Ledger entries only have `createdAt` because they represent history.
 
-The current definitions differ from the existing initial migration. Generate
-and review a new migration before applying the latest schema to a database.
+The composite product-type/category key is a table-level unique constraint so
+it exists before the product foreign key is created. Keep generated migration
+SQL and its snapshot in sync when reviewing migration changes.
 
 ```ts
 import { db } from "./db/index.js";

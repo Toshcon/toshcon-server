@@ -373,27 +373,6 @@
           "method": "btree",
           "with": {}
         },
-        "product_types_id_category_idx": {
-          "name": "product_types_id_category_idx",
-          "columns": [
-            {
-              "expression": "id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "product_category_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "product_types_name_idx": {
           "name": "product_types_name_idx",
           "columns": [
@@ -453,7 +432,16 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "product_types_id_category_unique": {
+          "name": "product_types_id_category_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id",
+            "product_category_id"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
