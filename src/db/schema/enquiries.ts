@@ -12,6 +12,7 @@ export const enquiries = pgTable(
     userId: uuid("user_id").references(() => users.id, {
       onDelete: "set null",
     }),
+    // multiple products so add enquires items.
     productId: uuid("product_id").references(() => products.id, {
       onDelete: "set null",
     }),

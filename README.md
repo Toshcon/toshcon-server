@@ -2,6 +2,17 @@
 
 TypeScript and Express server using Drizzle ORM with PostgreSQL on Supabase.
 
+## HTTP server
+
+`npm run dev` starts the Express app on validated `PORT` (default `4000`).
+`GET /health` returns `{"status":"healthy"}` without querying the database.
+`ADMIN_ORIGIN` configures the allowed browser origin for CORS and defaults to
+`http://localhost:3000`. Both settings are documented in `.env.example` and
+validated alongside `DATABASE_URL` before startup.
+
+`src/app.ts` configures middleware and routes; `src/index.ts` starts the listener.
+The health route and controller live in `src/api/v1/modules/health/`.
+
 ## Commands
 
 Run these from `server/`:

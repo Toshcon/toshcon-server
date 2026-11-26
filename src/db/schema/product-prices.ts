@@ -20,6 +20,7 @@ export const productPrices = pgTable(
     userType: userTypeEnum("user_type").notNull(),
     // Decimal amounts remain strings in TypeScript to preserve precision.
     price: numeric("price", { precision: 12, scale: 2 }).notNull(),
+    // add strike through pricing
     ...timestamps(),
   },
   (table) => [
